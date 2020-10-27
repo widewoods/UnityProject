@@ -6,6 +6,7 @@ TagManager:
   tags:
   - platform
   - obstacle
+  - Enemy
   layers:
   - Default
   - TransparentFX
