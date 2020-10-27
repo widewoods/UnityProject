@@ -65,7 +65,7 @@ public class Movement : MonoBehaviour
 
         if (collision.gameObject.tag == "obstacle")
         {
-            SceneManager.LoadScene("Platform");
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             DeathCount.deathCount += 1;
         }
     }
