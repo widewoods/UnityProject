@@ -13,7 +13,7 @@ public class BulletBehavior : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        Destroy(gameObject, 5);
+        Destroy(gameObject, 1.5f);
     }
 
     // Update is called once per frame
@@ -31,15 +31,10 @@ public class BulletBehavior : MonoBehaviour
         {
             Destroy(gameObject);
             Explode();
-            //Destroy Enemy
+            Destroy(collision.gameObject);
         }
 
-        if (collision.gameObject.CompareTag("Player"))
-        {
-
-        }
-
-        else
+        else if (!collision.gameObject.CompareTag("Player"))
         {
             Destroy(gameObject);
             Explode();
@@ -50,4 +45,6 @@ public class BulletBehavior : MonoBehaviour
     {
         Instantiate(bulletExplosionPrefab, transform.position, transform.rotation);
     }
+
+    
 }
