@@ -15,30 +15,26 @@ public class Movement : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        transform.position = new Vector2(-11f, -3.42f);
+        rb.drag = 1;
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown("s"))
-        {
-            transform.localScale = new Vector3(1f, 0.5f, 1f);
-            transform.Translate(0f, -0.25f, 0f);
-        }
+        //Crouch mechanic(Not used for now)
+        //if (Input.GetKeyDown("s"))
+        //{
+        //    transform.localScale = new Vector3(1f, 0.5f, 1f);
+        //    transform.Translate(0f, -0.25f, 0f);
+        //}
 
-        if (Input.GetKeyUp("s"))
-        {
-            transform.localScale = new Vector3(1f, 1f, 1f);
-            transform.Translate(0f, 0.25f, 0f);
+        //if (Input.GetKeyUp("s"))
+        //{
+        //    transform.localScale = new Vector3(1f, 1f, 1f);
+        //    transform.Translate(0f, 0.25f, 0f);
 
-        }
-    }
+        //}
 
-    // Update is called once per frame
-    void FixedUpdate()
-    {
-  
-        if (Input.GetKey("space") && grounded == true)
+        if (Input.GetKeyDown("space") && grounded == true)
         {
             Jump(jumpForce);
         }
@@ -52,16 +48,14 @@ public class Movement : MonoBehaviour
         {
             rb.AddForce(transform.right * sideForce);
         }
-
-        
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "platform")
-        {
-            grounded = true;
-        }
+        //if (collision.gameObject.tag == "platform")
+        //{
+        //    grounded = true;
+        //}
 
         if (collision.gameObject.tag == "obstacle")
         {
@@ -70,15 +64,23 @@ public class Movement : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        transform.position = new Vector2(10.35f, -3.43f);
+        if (collision.gameObject.CompareTag("platform"))
+        {
+            grounded = true;
+        }
+    }
 
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        grounded = false;
     }
 
     void Jump(float force)
     {
-        rb.AddForce(transform.up * jumpForce, ForceMode2D.Impulse);
+        rb.velocity = (transform.up * jumpForce);
         grounded = false;
     }
+
 }
