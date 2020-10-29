@@ -6,19 +6,27 @@ public class Grapple : MonoBehaviour
 {
 
     public Transform firePoint;
-    public LineRenderer lineRenderer;
-    
-    public float pullSpeed = 10f;
+    //public LineRenderer lineRenderer;
+
+
+    public float distance = 10f;
 
     private Rigidbody2D rb;
     public GameObject player;
+    private DistanceJoint2D joint;
+    public LineRenderer lr; 
 
     private Vector2 direction;
     private Vector2 vector2Player;
+    private RaycastHit2D hitInfo;
 
-    void Start()
+    public LayerMask mask;
+
+    void Awake()
     {
         rb = player.GetComponent<Rigidbody2D>();
+        joint = player.GetComponent<DistanceJoint2D>();
+        
     }
 
     // Update is called once per frame
@@ -26,48 +34,54 @@ public class Grapple : MonoBehaviour
     {
         if (Input.GetButtonDown("Fire2"))
         {
-            StartCoroutine(ShootGrapple());
+            StartGrapple();
+        }
+
+        if (Input.GetButton("Fire2"))
+        {
+            DrawGrapple();
+        }
+
+        if (Input.GetButtonUp("Fire2"))
+        {
+            StopGrapple();
+
         }
 
     }
 
-    IEnumerator ShootGrapple()
+    void StartGrapple()
     {
-        RaycastHit2D hitInfo = Physics2D.Raycast(firePoint.position, firePoint.right);
+        hitInfo = Physics2D.Raycast(firePoint.position, firePoint.right, distance, mask);
 
         if (hitInfo)
         {
-            Vector2 currentLinePoint = hitInfo.point * 0.1f;
+            joint.enabled = true;
 
-            for(float i = 0f; i < 1.1f; i += 0.1f)
-            {
-                //Render a line from the firepoint to the hitpoint
-                lineRenderer.SetPosition(0, firePoint.position);
-                lineRenderer.SetPosition(1, currentLinePoint);
+            joint.connectedAnchor = hitInfo.point;
 
-                currentLinePoint = hitInfo.point * i;
-
-                yield return new WaitForSeconds(0.01f);
-            }
-            
-
-            vector2Player = new Vector2(player.transform.position.x, player.transform.position.y);
-
-            //Calculate the direction to move in
-            direction = hitInfo.point - vector2Player;
-
-            //Add an impulse force towards the hitpoint
-            //rb.AddForce(direction.normalized * pullSpeed, ForceMode2D.Impulse);
-
-            rb.velocity = direction.normalized * pullSpeed;
-
-            //lineRenderer.enabled = true;
-
-            yield return new WaitForSeconds(0.1f);
-
-            //lineRenderer.enabled = false;
+            joint.distance = Vector2.Distance(player.transform.position, hitInfo.point);
 
         }
 
+    }
+
+    void StopGrapple()
+    {
+        joint.enabled = false;
+
+        lr.enabled = false;
+    }
+
+    void DrawGrapple()
+    {
+        if (hitInfo)
+        {
+
+            lr.enabled = true;
+
+            lr.SetPosition(0, firePoint.position);
+            lr.SetPosition(1, hitInfo.point);
+        }
     }
 }
