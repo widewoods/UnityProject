@@ -4,11 +4,6 @@ using UnityEngine;
 
 public class GunRotation : MonoBehaviour
 {
-    public float rotationSpeed;
-    private Quaternion lookRotation;
-    private Vector3 direction;
-    private Vector3 mousePos;
-
 
     // Update is called once per frame
     void Update()
