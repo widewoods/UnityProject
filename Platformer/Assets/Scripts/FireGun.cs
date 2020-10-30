@@ -29,5 +29,7 @@ public class FireGun : MonoBehaviour
     void Shoot()
     {
         Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+
+        FindObjectOfType<SoundManager>().Play("BulletShot");
     }
 }
