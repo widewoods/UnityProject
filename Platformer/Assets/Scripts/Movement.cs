@@ -20,25 +20,18 @@ public class Movement : MonoBehaviour
 
     private void Update()
     {
-        //Crouch mechanic(Not used for now)
-        //if (Input.GetKeyDown("s"))
-        //{
-        //    transform.localScale = new Vector3(1f, 0.5f, 1f);
-        //    transform.Translate(0f, -0.25f, 0f);
-        //}
-
-        //if (Input.GetKeyUp("s"))
-        //{
-        //    transform.localScale = new Vector3(1f, 1f, 1f);
-        //    transform.Translate(0f, 0.25f, 0f);
-
-        //}
 
         if (Input.GetKeyDown("space") && grounded == true)
         {
             Jump(jumpForce);
-        }
 
+            FindObjectOfType<SoundManager>().Play("JumpSound");
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        
         if (Input.GetKey("a"))
         {
             rb.AddForce(-transform.right * sideForce);
