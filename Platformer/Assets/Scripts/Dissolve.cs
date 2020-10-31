@@ -7,7 +7,7 @@ public class Dissolve : MonoBehaviour
     Material material;
 
     bool isDissolving = false;
-    float fade = 1f;
+    public float fade = 0.8f;
 
     // Start is called before the first frame update
     void Start()
@@ -18,11 +18,10 @@ public class Dissolve : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            isDissolving = true;
-        }
-
+        //if (Input.GetKeyDown(KeyCode.E))
+        //{
+        //    StartDissolve();
+        //}
         if (isDissolving)
         {
             fade -= Time.deltaTime;
@@ -37,5 +36,10 @@ public class Dissolve : MonoBehaviour
 
             material.SetFloat("_Fade", fade);
         }
+    }
+
+    public void StartDissolve()
+    {
+        isDissolving = true;
     }
 }
