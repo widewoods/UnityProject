@@ -6,10 +6,11 @@ using UnityEngine.SceneManagement;
 public class Movement : MonoBehaviour
 {
     public Rigidbody2D rb;
-    public bool grounded = true;
+    public bool isGrounded = true;
 
     public float jumpForce = 10f;
     public float sideForce = 20f;
+
 
     // Start is called before the first frame update
     void Start()
@@ -21,7 +22,7 @@ public class Movement : MonoBehaviour
     private void Update()
     {
 
-        if (Input.GetKeyDown("space") && grounded == true)
+        if (Input.GetKeyDown("space") && isGrounded == true)
         {
             Jump(jumpForce);
 
@@ -34,6 +35,7 @@ public class Movement : MonoBehaviour
         
         if (Input.GetKey("a"))
         {
+
             rb.AddForce(-transform.right * sideForce);
         }
 
@@ -43,37 +45,31 @@ public class Movement : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        //if (collision.gameObject.tag == "platform")
-        //{
-        //    grounded = true;
-        //}
-
-        if (collision.gameObject.tag == "obstacle")
-        {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-            DeathCount.deathCount += 1;
-        }
-    }
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("platform"))
         {
-            grounded = true;
+            isGrounded = true;
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("platform"))
+        {
+            isGrounded = true;
         }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        grounded = false;
+        isGrounded = false;
     }
 
     void Jump(float force)
     {
-        rb.velocity = (transform.up * jumpForce);
-        grounded = false;
+        rb.AddForce(transform.up * jumpForce, ForceMode2D.Impulse);
+        isGrounded = false;
     }
 
 }

@@ -8,22 +8,37 @@ public class EnemyScript : MonoBehaviour
     public GameObject bulletPrefab;
     public GameObject player;
     public GameObject gun;
+    public ParticleSystem particle;
+    public SpriteRenderer sprite;
+    public BoxCollider2D coll;
+    public Dissolve dissolve;
+
+    public static int enemyCount;
+    public float enemyHealth;
 
     public string mode;
 
     private Vector3 playerPos;
     private Vector3 gunPos;
 
-    public bool flipped = false;
+    public bool isFlipped = false;
+    bool isDead = false;
 
     public float bulletSpawnRate = 0.6f;
     private float timer;
 
     // Start is called before the first frame update
     void Start()
-    { 
+    {
+        enemyCount += 1;
+
+        particle = GetComponent<ParticleSystem>();
+        sprite = GetComponent<SpriteRenderer>();
+        coll = GetComponent<BoxCollider2D>();
+        dissolve = GetComponent<Dissolve>();
+
         gun.transform.rotation = Quaternion.Euler(0, 0, 0);
-        if (flipped)
+        if (isFlipped)
         {
             Flip();
         }
@@ -32,11 +47,20 @@ public class EnemyScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        timer += Time.deltaTime;
-        if (timer >= bulletSpawnRate)
+        if (!isDead)
         {
-            Shoot(mode);
-            timer = 0f;
+            timer += Time.deltaTime;
+            if (timer >= bulletSpawnRate)
+            {
+                Shoot(mode);
+                timer = 0f;
+            }
+
+            if (Input.GetKeyDown(KeyCode.C))
+            {
+                Die();
+            }
+
         }
 
     }
@@ -69,5 +93,30 @@ public class EnemyScript : MonoBehaviour
     void Flip()
     {
         transform.Rotate(0f, 180f, 0f);
+    }
+
+    void Die()
+    {
+        //sprite.enabled = false;
+        coll.enabled = false;
+        if (isFlipped)
+        {
+            Flip();
+        }
+        dissolve.StartDissolve();
+        //particle.Play();
+        Destroy(gameObject, 1.1f);
+        Destroy(gun);
+        isDead = true;
+    }
+
+    public void TakeDamage(int damage)
+    {
+        enemyHealth -= damage;
+
+        if(enemyHealth <= 0)
+        {
+            Die();
+        }
     }
 }
