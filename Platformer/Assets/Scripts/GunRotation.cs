@@ -4,9 +4,26 @@ using UnityEngine;
 
 public class GunRotation : MonoBehaviour
 {
+    public bool isFlipped;
 
     // Update is called once per frame
     void Update()
+    {
+        FollowMouse();
+
+        if (Mathf.Abs(transform.rotation.z) >= 90)
+        {
+            Flip();
+            Debug.Log("Flipped!");
+        }
+    }
+    void Flip()
+    {
+        isFlipped = true;
+        transform.Rotate(0f, 180f, 0f);
+    }
+
+    void FollowMouse()
     {
         //Get mouse position
         Vector3 mousePos = Input.mousePosition;
