@@ -40,3 +40,5 @@ sysinfo.txt
 *.asset
 *.asset
 .DS_Store
+3D Project/Assets/3D Flying/ReflectionProbe-0.exr
+*.lighting
