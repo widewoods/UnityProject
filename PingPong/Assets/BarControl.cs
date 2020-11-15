@@ -54,6 +54,24 @@ public class BarControl : MonoBehaviour
                 //transform.Translate(-transform.up * speed * Time.deltaTime);
             }
         }
+
+        if(player == "AI")
+        {
+            //if(transform.position.y < ballRb.gameObject.transform.position.y)
+            //{
+            //    rb.AddForce(transform.up * speed * Time.deltaTime);
+            //}
+            //else if (transform.position.y > ballRb.gameObject.transform.position.y)
+            //{
+            //    rb.AddForce(-transform.up * speed * Time.deltaTime);
+            //}
+            //else
+            //{
+            //    rb.velocity = Vector2.zero;
+            //}
+
+            transform.position = new Vector2(transform.position.x, ballRb.gameObject.transform.position.y);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

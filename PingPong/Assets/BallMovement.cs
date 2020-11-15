@@ -28,14 +28,14 @@ public class BallMovement : MonoBehaviour
             StartCoroutine(Initialize());
         }
         rb.velocity = rb.velocity.normalized * currentSpeed;
-        currentSpeed += 0.05f;
+
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Vector2 direction;
         direction = collisionPoint - position;
-        currentSpeed = initialSpeed;
+        
         if (collision.gameObject.tag == "Vertical")
         {
             direction.Scale(new Vector2(-1, 1));
@@ -83,10 +83,12 @@ public class BallMovement : MonoBehaviour
 
     IEnumerator Initialize()
     {
+        Vector2 direction = Vector2.zero;
         transform.position = initialPosition;
         rb.velocity = Vector2.zero;
         yield return new WaitForSeconds(1.2f);
-        Vector2 direction = new Vector2(Random.Range(-3f, 3f), Random.Range(-3f, 3f)).normalized;
+        direction = new Vector2(Random.Range(-4f, 4f), Random.Range(-4f, 4f));
+
         rb.velocity = direction * initialSpeed;
         collisionPoint = CheckCollisionPoint();
         position = transform.position;
