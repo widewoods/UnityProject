@@ -8,13 +8,11 @@ public class Snake : MonoBehaviour
     Vector2 gridUnit = new Vector2(1, 0);
 
     public static float timer = 0f;
-    public static float waitTime = 0.2f;
+    public static float waitTime = 0.15f;
     public GameObject snakeBodyPrefab;
     public static Vector2 previousPositon;
 
     public event Action OnGameOver;
-
-    int count = 0;
 
     public FoodSpawner foodSpawner;
 
@@ -26,13 +24,18 @@ public class Snake : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //Reset position to (0, 0) and add the transform to index 0 of snakeBodies
         SnakeBody.snakeBodies.Add(transform);
         transform.position = new Vector3(0, 0, 0);
+
+        //Start with 3 length body
+        Instantiate(snakeBodyPrefab, transform.position, Quaternion.identity);
+        Instantiate(snakeBodyPrefab, SnakeBody.snakeBodies[SnakeBody.bodyCount].GetComponent<SnakeBody>().previousPosition, Quaternion.identity);
     }
 
-    // Update is called once per frame
     void Update()
     {
+        //Move by one grid unit 
         timer += Time.deltaTime;
         if(timer >= waitTime)
         {
@@ -40,19 +43,11 @@ public class Snake : MonoBehaviour
             
             timer = 0f;
         }
-        if (Input.GetKeyDown(KeyCode.G))
-        {
-            if(timer < waitTime)
-            {
-                Invoke("GrowLength", waitTime - timer);
-            }
-        }
-        if (Input.GetKeyDown(KeyCode.F))
-        {
-            foodSpawner.SpawnFood();
-        }
+
+        //Check for key presses and change direction
         ChangeDirection();
 
+        //Gameover when snake goes over border
         if (Mathf.Abs(transform.position.x) > FoodSpawner.borderRadius || Mathf.Abs(transform.position.y) > FoodSpawner.borderRadius)
         {
             OnGameOver();
@@ -63,9 +58,11 @@ public class Snake : MonoBehaviour
 
     void MoveByOneGrid()
     {
+        //Save previous position and move by one grid unit
         previousPositon = transform.position;
         transform.Translate(gridUnit);
 
+        //Gameover when colliding with own body
         foreach(Transform bodyPositions in SnakeBody.snakeBodies)
         {
             if(SnakeBody.snakeBodies.IndexOf(bodyPositions) != 0)
@@ -78,6 +75,7 @@ public class Snake : MonoBehaviour
         }
     }
 
+    //Change direction based on key press
     void ChangeDirection()
     {
         if (Input.GetKeyDown(moveUp))
@@ -98,17 +96,9 @@ public class Snake : MonoBehaviour
         }
     }
 
+    //Instantiate body prefab
     public void GrowLength()
     {
-        if(count == 0)
-        {
-            Instantiate(snakeBodyPrefab, Snake.previousPositon, Quaternion.identity);
-            count++;
-        }
-        else
-        {
-            Instantiate(snakeBodyPrefab, SnakeBody.snakeBodies[SnakeBody.bodyCount].GetComponent<SnakeBody>().previousPosition, Quaternion.identity);
-            count++;
-        }
+        Instantiate(snakeBodyPrefab, SnakeBody.snakeBodies[SnakeBody.bodyCount].GetComponent<SnakeBody>().previousPosition, Quaternion.identity);
     }
 }

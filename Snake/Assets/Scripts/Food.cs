@@ -13,9 +13,9 @@ public class Food : MonoBehaviour
         foodSpawner = FindObjectOfType<FoodSpawner>();
     }
 
-    // Update is called once per frame
     void Update()
     {
+        //Spawn another food and grow length of snake
         if(transform.position == SnakeBody.snakeBodies[0].position)
         {
             snakeHead.GrowLength();

@@ -9,16 +9,17 @@ public class GameOver : MonoBehaviour
 
     public Snake snake;
 
-    // Start is called before the first frame update
     void Start()
     {
         snake = FindObjectOfType<Snake>().GetComponent<Snake>();
+
+        //Subscribe GameOverMethod to OnGameOver
         snake.OnGameOver += GameOverMethod;
     }
 
     void GameOverMethod()
     {
-        Debug.Log("GameOver");
+        //Disable corresponding body's script to stop snake
         foreach (Transform bodyPosition in SnakeBody.snakeBodies)
         {
             
@@ -37,12 +38,13 @@ public class GameOver : MonoBehaviour
         StartCoroutine(ChangeDeathColor());
     }
 
+    //Change color to grey from head to tail
     IEnumerator ChangeDeathColor()
     {
         foreach(Transform elem in SnakeBody.snakeBodies)
         {
             elem.gameObject.GetComponent<SpriteRenderer>().color = Color.grey;
-            yield return new WaitForSeconds(0.07f);
+            yield return new WaitForSeconds(0.024f);
         }
     }
 }

@@ -8,11 +8,13 @@ public class FoodSpawner : MonoBehaviour
     public static int borderRadius = 12;
     List<Vector2> possibleSpawnPositions = new List<Vector2>();
 
+    //Start with 1 food
     private void Start()
     {
         SpawnFood();
     }
 
+    //Pick random position out of possible spawn positions nad instantiate food prefab
     public void SpawnFood()
     {
         FindPossibleSpawnPositions();
@@ -22,7 +24,10 @@ public class FoodSpawner : MonoBehaviour
 
     void FindPossibleSpawnPositions()
     {
+        //Reset list
         possibleSpawnPositions.RemoveRange(0, possibleSpawnPositions.Count);
+
+        //Fill list from bottom left to top right position
         for (int x = -borderRadius; x <= borderRadius; x++)
         {
             for (int y = -borderRadius; y <= borderRadius; y++)
@@ -31,7 +36,11 @@ public class FoodSpawner : MonoBehaviour
             }
         }
 
+        //Save indexes to remove and remove later
+        //Messed with indexes if removed right away
         List<int> indexesToRemove = new List<int>();
+
+        //Check for positions where snake body is and remove those positions
         foreach(Vector2 possiblePosition in possibleSpawnPositions)
         {
             foreach (Transform occupiedPosition in SnakeBody.snakeBodies)
@@ -44,6 +53,7 @@ public class FoodSpawner : MonoBehaviour
             }
         }
 
+        //Remove index
         int count = 0;
         foreach (int elem in indexesToRemove)
         {
