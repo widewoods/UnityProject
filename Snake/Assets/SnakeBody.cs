@@ -21,6 +21,11 @@ public class SnakeBody : MonoBehaviour
         bodyIndex = bodyCount + 1;
         bodyCount = bodyIndex;
         snakeBodies.Add(transform);
+
+        //if(bodyIndex % 2 == 1)
+        //{
+        //    GetComponent<SpriteRenderer>().color = new Color(0.094f, 0.4f, 0.1f, 1);
+        //}
     }
 
     private void Start()
