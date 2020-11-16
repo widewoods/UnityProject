@@ -11,6 +11,8 @@ public class Snake : MonoBehaviour
     public GameObject snakeBodyPrefab;
     public static Vector2 previousPositon;
 
+    public FoodSpawner foodSpawner;
+
     KeyCode moveUp = KeyCode.W;
     KeyCode moveDown = KeyCode.S;
     KeyCode moveLeft = KeyCode.A;
@@ -32,12 +34,16 @@ public class Snake : MonoBehaviour
             
             timer = 0f;
         }
-        if (Input.GetKeyDown(KeyCode.C))
+        if (Input.GetKeyDown(KeyCode.G))
         {
             if(timer < waitTime)
             {
                 Invoke("GrowLength", waitTime - timer);
             }
+        }
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            foodSpawner.SpawnFood();
         }
         ChangeDirection();
     }
