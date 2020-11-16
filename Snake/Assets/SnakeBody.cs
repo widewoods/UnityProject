@@ -6,6 +6,7 @@ public class SnakeBody : MonoBehaviour
 {
     public static List<Transform> snakeBodies = new List<Transform>();
 
+    public GameObject bodyParent;
     public static int bodyCount;
     float timer;
 
@@ -20,7 +21,12 @@ public class SnakeBody : MonoBehaviour
         bodyIndex = bodyCount + 1;
         bodyCount = bodyIndex;
         snakeBodies.Add(transform);
-        Debug.Log(snakeBodies[bodyIndex].position);
+    }
+
+    private void Start()
+    {
+        bodyParent = GameObject.Find("SnakeBody");
+        transform.parent = bodyParent.transform;
     }
 
     // Update is called once per frame
