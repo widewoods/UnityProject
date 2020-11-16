@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class Snake : MonoBehaviour
 {
@@ -10,6 +11,10 @@ public class Snake : MonoBehaviour
     public static float waitTime = 0.2f;
     public GameObject snakeBodyPrefab;
     public static Vector2 previousPositon;
+
+    public event Action OnGameOver;
+
+    int count = 0;
 
     public FoodSpawner foodSpawner;
 
@@ -22,6 +27,7 @@ public class Snake : MonoBehaviour
     void Start()
     {
         SnakeBody.snakeBodies.Add(transform);
+        transform.position = new Vector3(0, 0, 0);
     }
 
     // Update is called once per frame
@@ -46,12 +52,30 @@ public class Snake : MonoBehaviour
             foodSpawner.SpawnFood();
         }
         ChangeDirection();
+
+        if (Mathf.Abs(transform.position.x) > FoodSpawner.borderRadius || Mathf.Abs(transform.position.y) > FoodSpawner.borderRadius)
+        {
+            OnGameOver();
+        }
+
+
     }
 
     void MoveByOneGrid()
     {
         previousPositon = transform.position;
         transform.Translate(gridUnit);
+
+        foreach(Transform bodyPositions in SnakeBody.snakeBodies)
+        {
+            if(SnakeBody.snakeBodies.IndexOf(bodyPositions) != 0)
+            {
+                if (transform.position == bodyPositions.position)
+                {
+                    OnGameOver();
+                }
+            }
+        }
     }
 
     void ChangeDirection()
@@ -76,7 +100,15 @@ public class Snake : MonoBehaviour
 
     public void GrowLength()
     {
-        Instantiate(snakeBodyPrefab, SnakeBody.snakeBodies[SnakeBody.bodyCount].transform.position, Quaternion.identity);
-        //Instantiate(snakeBodyPrefab, transform.position, Quaternion.identity);
+        if(count == 0)
+        {
+            Instantiate(snakeBodyPrefab, Snake.previousPositon, Quaternion.identity);
+            count++;
+        }
+        else
+        {
+            Instantiate(snakeBodyPrefab, SnakeBody.snakeBodies[SnakeBody.bodyCount].GetComponent<SnakeBody>().previousPosition, Quaternion.identity);
+            count++;
+        }
     }
 }
