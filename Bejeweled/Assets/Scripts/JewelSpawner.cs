@@ -9,6 +9,8 @@ public class JewelSpawner : MonoBehaviour
     public GameObject borderPrefab;
     public GameObject borderParent;
 
+    GameObject temp;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -24,6 +26,11 @@ public class JewelSpawner : MonoBehaviour
         {
             Initialize();
         }
+        temp = GameObject.FindGameObjectWithTag("Temp");
+        if (temp)
+        {
+            SpawnNewJewel(temp);
+        }
         
     }
 
@@ -33,18 +40,35 @@ public class JewelSpawner : MonoBehaviour
         Destroy(borderParent);
         jewelParent = new GameObject("Jewels");
         borderParent = new GameObject("Borders");
-        for (int x = 1; x < 10; x++)
+        for (int x = 0; x < 9; x++)
         {
-            for(int y = 1; y < 10; y++)
+            CheckSameType.columns.Add(new List<GameObject>());
+            for(int y = 0; y < 10; y++)
             {
                 int randomIndex = Random.Range(0, 7);
                 GameObject jewel = Instantiate(jewelsList[randomIndex], new Vector2(x, y), Quaternion.identity, jewelParent.transform);
                 jewel.GetComponent<Jewel>().type = randomIndex;
-                CheckSameType.positionGameObjectPair[new Vector2(x,y)] = jewel;
+                
+                CheckSameType.columns[x].Add(jewel);
 
                 Instantiate(borderPrefab, new Vector2(x,y), Quaternion.identity, borderParent.transform);
             }
         }
     }
 
+    void SpawnNewJewel(GameObject obj)
+    {
+        if (obj.transform.position.y == 9)
+        {
+            Destroy(obj);
+            int randomIndex = Random.Range(0, 7);
+            Destroy(CheckSameType.columns[Mathf.RoundToInt(obj.transform.position.x)][Mathf.RoundToInt(obj.transform.position.y)]);
+            GameObject jewel = Instantiate(jewelsList[randomIndex], obj.transform.position, Quaternion.identity, jewelParent.transform);
+            jewel.GetComponent<Jewel>().type = randomIndex;
+
+            CheckSameType.columns[Mathf.RoundToInt(obj.transform.position.x)][Mathf.RoundToInt(obj.transform.position.y)] = jewel;
+        }
+        
+    }
 }
+
