@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 20462791}
   - component: {fileID: 20462790}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: GameManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -152,6 +152,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 793b6b4c7e5b5499e94943a03d8b870f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tempPrefab: {fileID: 5177151486686854913, guid: 800dc4639843b49258136ef161604e4f, type: 3}
+  position: {x: 0, y: 0}
 --- !u!4 &20462791
 Transform:
   m_ObjectHideFlags: 0
@@ -249,8 +251,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8835e93c617549f1811008aaebdb530, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  posToCheck: {x: 0, y: 0}
-  matchCount: 0
+  matchCount: 1
+  gameManager: {fileID: 20462790}
+  row: 0
+  column: 0
 --- !u!4 &1320745787
 Transform:
   m_ObjectHideFlags: 0
@@ -318,7 +322,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 4.5
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
