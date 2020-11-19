@@ -5,27 +5,20 @@ using UnityEngine;
 public class UpdatePositions : MonoBehaviour
 {
     public Vector2 position;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
     // Update is called once per frame
     void Update()
     {
-        position = transform.position;
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            UpdatePos();
-        }
+        position.x = Mathf.RoundToInt(transform.position.x);
+        position.y = Mathf.RoundToInt(transform.position.y);
+        UpdatePos(position, gameObject);
     }
 
-    public void UpdatePos()
+    public static void UpdatePos(Vector2 position, GameObject gameObject)
     {
-        if(CheckSameType.positionGameObjectPair[position] != gameObject)
-        {
-            CheckSameType.positionGameObjectPair[position] = gameObject;
-        }
+        //if (CheckSameType.positionGameObjectPair[position] != gameObject)
+        //{
+        //    CheckSameType.positionGameObjectPair[position] = gameObject;
+        //}
     }
 }
