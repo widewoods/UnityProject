@@ -9,7 +9,7 @@ public class Jewel : MonoBehaviour
 
     public Vector2 positionToRemove;
 
-    UpdatePositions updatePositions;
+    CheckSameType check;
 
     public static Transform firstClickedJewel;
     public static Transform secondClickedJewel;
@@ -19,10 +19,13 @@ public class Jewel : MonoBehaviour
 
     public int type;
 
+    public int posX;
+    public int posY;
+
     // Start is called before the first frame update
     void Start()
     {
-        updatePositions = gameObject.GetComponent<UpdatePositions>();
+        check = FindObjectOfType<CheckSameType>();
         position = transform.position;
         ResetClickedJewels();
     }
@@ -34,14 +37,14 @@ public class Jewel : MonoBehaviour
         {
             SwapPlaces();
         }
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            Fall();
-        }
-        if (Input.GetButtonDown("Fire2"))
-        {
-            RemoveAtPos(positionToRemove);
-        }
+        //if (Input.GetKey(KeyCode.S))
+        //{
+        //    StartCoroutine(Fall());
+        //}
+        posX = Mathf.RoundToInt(transform.position.x);
+        posY = Mathf.RoundToInt(transform.position.y);
+        //StartCoroutine(Fall());
+        Fall();
     }
 
     void SwapPlaces()
@@ -69,6 +72,7 @@ public class Jewel : MonoBehaviour
                     StartCoroutine(AnimateTranslate(secondClickedJewel, -direction));
                     ResetClickedJewels();
                     Debug.Log("Swapped");
+                    //StartCoroutine(check.MatchAll());
                 }
                 else
                 {
@@ -98,23 +102,25 @@ public class Jewel : MonoBehaviour
 
     public void Fall()
     {
-        if (transform.position.y > 0)
+        if (transform.position.y >= 1)
         {
-            if (CheckSameType.positionGameObjectPair[position + Vector2.down].CompareTag("Temp")) 
+            
+            if(!CheckSameType.columns[posX][posY - 1])
+            {
+                GameObject temp = Instantiate(tempPrefab, position + Vector2.down, Quaternion.identity);
+                CheckSameType.columns[posX][posY - 1] = temp;
+            }
+            if (CheckSameType.columns[posX][posY - 1].CompareTag("Temp"))
             {
                 GameObject temp = Instantiate(tempPrefab, position, Quaternion.identity);
-                temps.Add(temp);
-                CheckSameType.positionGameObjectPair[position] = temp;
-                StartCoroutine(AnimateTranslate(transform, Vector2.down));
+                CheckSameType.columns[posX][posY] = temp;
+                Destroy(CheckSameType.columns[posX][posY -1]);
+                CheckSameType.columns[posX][posY -1] = gameObject;
+
+                gameObject.transform.Translate(Vector2.down);
+                transform.position = new Vector3(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.y), 0);
+                position = transform.position;
             }
         }
-    }
-
-    public void RemoveAtPos(Vector2 position)
-    {
-        GameObject temp = Instantiate(tempPrefab, position, Quaternion.identity);
-        temps.Add(temp);
-        Destroy(CheckSameType.positionGameObjectPair[position]);
-
     }
 }
