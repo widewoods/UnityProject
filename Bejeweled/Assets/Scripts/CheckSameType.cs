@@ -4,16 +4,19 @@ using UnityEngine;
 
 public class CheckSameType : MonoBehaviour
 {
-    public static Dictionary<Vector2, GameObject> positionGameObjectPair = new Dictionary<Vector2, GameObject>();
+    public static List<List<GameObject>> columns = new List<List<GameObject>>();
 
-    public Vector2 posToCheck;
+    public int horizontalMatchCount = 1;
+    public int verticalMatchCount = 1;
 
-    [SerializeField]
-    int matchCount;
+    public GameManager gameManager;
+
+    public int row;
+    public int column;
 
     private void Start()
     {
-        matchCount = 1;
+        StartCoroutine(MatchAll());
     }
 
     private void Update()
@@ -24,44 +27,82 @@ public class CheckSameType : MonoBehaviour
             {
                 for (int y = 0; y < 9; y++)
                 {
-                    Debug.Log(positionGameObjectPair[new Vector2(x, y)]);
+                    Debug.Log(columns[x][y]);
                 }
             }
         }
-
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            MatchThree("Right", positionGameObjectPair[posToCheck]);
-        }
     }
 
-    public void MatchThree(string direction, GameObject obj)
+    public IEnumerator Match(int row, int column, string direction)
     {
-        GameObject objectToCheck;
-        if(direction == "Right")
+        if(direction == "Horizontal")
         {
-            Vector2 checkPos = Vector2.right + new Vector2(obj.transform.position.x, obj.transform.position.y);
-            if (positionGameObjectPair.ContainsKey(checkPos))
+            for (int x = 0; x < 8; x++)
             {
-                objectToCheck = positionGameObjectPair[checkPos];
-                if(objectToCheck.GetComponent<Jewel>().type == obj.GetComponent<Jewel>().type)
+                if(columns[x][row].GetComponent<Jewel>().type == columns[x + 1][row].GetComponent<Jewel>().type)
                 {
-                    matchCount++;
-                    if(matchCount == 3)
-                    { 
-                        for(int x = 0; x >= -2; x--)
-                        {
-                            GameObject matchObject = positionGameObjectPair[checkPos + new Vector2(x, 0)];
-                            matchObject.GetComponent<Jewel>().RemoveAtPos(checkPos + new Vector2(x, 0));
-                        }
-                        matchCount = 1;
-                    }
-                    else
+                    horizontalMatchCount++;
+                    if (horizontalMatchCount == 3)
                     {
-                        MatchThree("Right", positionGameObjectPair[checkPos]);
+                        for (int i = 1; i > -2; i--)
+                        {
+                            GameManager.RemoveAtPos(columns[x + i][row].transform.position, gameManager.tempPrefab);
+                            yield return null;
+                        }
+                        horizontalMatchCount = 1;
                     }
                 }
+                else
+                {
+                    horizontalMatchCount = 1;
+                }
+                
+            }
+        }
+
+        if (direction == "Vertical")
+        {
+            for (int x = 0; x < 8; x++)
+            {
+                if (columns[column][x].GetComponent<Jewel>().type == columns[column][x + 1].GetComponent<Jewel>().type)
+                {
+                    verticalMatchCount++;
+                    if (verticalMatchCount == 3)
+                    {
+                        for (int i = 1; i > -2; i--)
+                        {
+                            GameManager.RemoveAtPos(columns[column][x + i].transform.position, gameManager.tempPrefab);
+                            yield return new WaitForEndOfFrame();
+                        }
+                        verticalMatchCount = 1;
+                    }
+                }
+                else
+                {
+                    verticalMatchCount = 1;
+                }
+
             }
         }
     }
+
+    public IEnumerator MatchAll()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(0.2f);
+            for (int row = 0; row < 9; row++)
+            {
+                StartCoroutine(Match(row, column, "Horizontal"));
+                yield return new WaitForSeconds(0.01f);
+            }
+
+            for (int column = 0; column < 9; column++)
+            {
+                StartCoroutine(Match(row, column, "Vertical"));
+                yield return new WaitForSeconds(0.01f);
+            }
+        }
+    }
+
 }
