@@ -8,14 +8,12 @@ public class JewelSpawner : MonoBehaviour
     public GameObject jewelParent;
     public GameObject borderPrefab;
     public GameObject borderParent;
-    CheckSameType check;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         borderParent = new GameObject("Borders");
         jewelParent = new GameObject("Jewels");
-        check = FindObjectOfType<CheckSameType>();
         Initialize();
     }
 
@@ -26,6 +24,7 @@ public class JewelSpawner : MonoBehaviour
         {
             Initialize();
         }
+        
     }
 
     void Initialize()
@@ -34,9 +33,9 @@ public class JewelSpawner : MonoBehaviour
         Destroy(borderParent);
         jewelParent = new GameObject("Jewels");
         borderParent = new GameObject("Borders");
-        for (int x = 0; x < 9; x++)
+        for (int x = 1; x < 10; x++)
         {
-            for(int y = 0; y < 9; y++)
+            for(int y = 1; y < 10; y++)
             {
                 int randomIndex = Random.Range(0, 7);
                 GameObject jewel = Instantiate(jewelsList[randomIndex], new Vector2(x, y), Quaternion.identity, jewelParent.transform);
@@ -47,4 +46,5 @@ public class JewelSpawner : MonoBehaviour
             }
         }
     }
+
 }
