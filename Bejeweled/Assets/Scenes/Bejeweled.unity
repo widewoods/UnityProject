@@ -205,6 +205,14 @@ MonoBehaviour:
   - {fileID: 2887271443318625337, guid: 50895058e1bd54ff1964f58f6affca6b, type: 3}
   - {fileID: 5314708882845635971, guid: 45c544bfad11d4e379bb7623f578f051, type: 3}
   - {fileID: 3774399383070481393, guid: d1d4b4a25fac24d48be54de1c3d781fa, type: 3}
+  particleList:
+  - {fileID: 3959794072434638274, guid: 5c1f206ec48d843ee9f510b8e2a7dd47, type: 3}
+  - {fileID: 3959794072434638274, guid: 1d4b37010aff64e2980aa20d2ab53f8a, type: 3}
+  - {fileID: 3959794072434638274, guid: 904d56d672e004f9b84d360fa8fd05e3, type: 3}
+  - {fileID: 3959794072434638274, guid: 48f2c874168ec4027ac681ec8821a22c, type: 3}
+  - {fileID: 3959794072434638274, guid: 4052c6241c7e74807a177b38d59a1a10, type: 3}
+  - {fileID: 3959794072434638274, guid: a87d7e8db5cf947528e6304cdb6ac00b, type: 3}
+  - {fileID: 3959794072434638274, guid: a3db02d4e49644fa3afa6d255800c2e9, type: 3}
   jewelParent: {fileID: 0}
   borderPrefab: {fileID: 3103422271194237899, guid: 5b20fdc3cfba84eeab5d6df844c179f7, type: 3}
   borderParent: {fileID: 0}
@@ -251,7 +259,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8835e93c617549f1811008aaebdb530, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  matchCount: 1
+  horizontalMatchCount: 1
+  verticalMatchCount: 1
   gameManager: {fileID: 20462790}
   row: 0
   column: 0

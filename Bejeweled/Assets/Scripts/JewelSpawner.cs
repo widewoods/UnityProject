@@ -5,6 +5,7 @@ using UnityEngine;
 public class JewelSpawner : MonoBehaviour
 {
     public GameObject[] jewelsList = new GameObject[7];
+    public GameObject[] particleList = new GameObject[7];
     public GameObject jewelParent;
     public GameObject borderPrefab;
     public GameObject borderParent;
@@ -48,7 +49,8 @@ public class JewelSpawner : MonoBehaviour
                 int randomIndex = Random.Range(0, 7);
                 GameObject jewel = Instantiate(jewelsList[randomIndex], new Vector2(x, y), Quaternion.identity, jewelParent.transform);
                 jewel.GetComponent<Jewel>().type = randomIndex;
-                
+                jewel.GetComponent<Jewel>().particle = particleList[randomIndex];
+
                 CheckSameType.columns[x].Add(jewel);
 
                 Instantiate(borderPrefab, new Vector2(x,y), Quaternion.identity, borderParent.transform);
