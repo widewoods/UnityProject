@@ -17,6 +17,8 @@ public class Jewel : MonoBehaviour
     public static List<GameObject> temps = new List<GameObject>();
     public GameObject tempPrefab;
 
+    public GameObject particle;
+
     public int type;
 
     public int posX;
@@ -28,23 +30,24 @@ public class Jewel : MonoBehaviour
         check = FindObjectOfType<CheckSameType>();
         position = transform.position;
         ResetClickedJewels();
+        posX = Mathf.RoundToInt(transform.position.x);
+        posY = Mathf.RoundToInt(transform.position.y);
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
+    {
+        Fall();
+    }
+
+    private void Update()
     {
         if (Input.GetButtonDown("Fire1"))
         {
             SwapPlaces();
         }
-        //if (Input.GetKey(KeyCode.S))
-        //{
-        //    StartCoroutine(Fall());
-        //}
         posX = Mathf.RoundToInt(transform.position.x);
         posY = Mathf.RoundToInt(transform.position.y);
-        //StartCoroutine(Fall());
-        Fall();
     }
 
     void SwapPlaces()
@@ -71,13 +74,11 @@ public class Jewel : MonoBehaviour
                     StartCoroutine(AnimateTranslate(firstClickedJewel, direction));
                     StartCoroutine(AnimateTranslate(secondClickedJewel, -direction));
                     ResetClickedJewels();
-                    Debug.Log("Swapped");
-                    //StartCoroutine(check.MatchAll());
+                    StartCoroutine(check.MatchAll());
                 }
                 else
                 {
                     ResetClickedJewels();
-                    Debug.Log("Too Far");
                 }
             }
         }
@@ -91,13 +92,16 @@ public class Jewel : MonoBehaviour
 
     IEnumerator AnimateTranslate(Transform transform, Vector2 direction)
     {
-        for (int i = 0; i <= 9; i++)
+        if (transform)
         {
-            transform.Translate(direction.normalized / 10);
-            yield return new WaitForSeconds(0.01f);
+            for (int i = 0; i <= 9; i++)
+            {
+                transform.Translate(direction.normalized / 10);
+                yield return new WaitForSeconds(0.01f);
+            }
         }
-        transform.position = new Vector3(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.y), 0);
-        position = transform.position;
+
+        RoundPositionToInt();
     }
 
     public void Fall()
@@ -118,9 +122,14 @@ public class Jewel : MonoBehaviour
                 CheckSameType.columns[posX][posY -1] = gameObject;
 
                 gameObject.transform.Translate(Vector2.down);
-                transform.position = new Vector3(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.y), 0);
-                position = transform.position;
+                RoundPositionToInt();
             }
         }
+    }
+
+    void RoundPositionToInt()
+    {
+        transform.position = new Vector3(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.y), 0);
+        position = transform.position;
     }
 }
