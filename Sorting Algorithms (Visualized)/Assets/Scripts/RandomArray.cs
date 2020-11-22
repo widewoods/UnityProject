@@ -6,13 +6,17 @@ public class RandomArray : MonoBehaviour
 {
     public static int[] randomArray;
     public int itemCount;
+    public GameObject visualizerPrefab;
 
     void Awake()
     {
         randomArray = new int[itemCount];
+
+        //Add integers from 1 to item count
         for(int i = 1; i <= itemCount; i++)
         {
             randomArray[i - 1] = i;
+            Instantiate(visualizerPrefab);
         }
 
         Shuffle(randomArray);
