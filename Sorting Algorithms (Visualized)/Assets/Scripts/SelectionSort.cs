@@ -11,16 +11,15 @@ public class SelectionSort : MonoBehaviour
     {
         array = RandomArray.randomArray;
 
-        Sort();
+        StartCoroutine(Sort());
 
-        foreach (int item in array)
-        {
-            Debug.Log(item);
-        }
-        Debug.LogWarning("Selection Sort Comparison Count: " + comparisonCount);
+        //foreach (int item in array)
+        //{
+        //    Debug.Log(item);
+        //}
     }
 
-    void Sort()
+    IEnumerator Sort()
     {
         int min;
         int minIndex;
@@ -37,6 +36,7 @@ public class SelectionSort : MonoBehaviour
                     min = array[i];
                 }
                 comparisonCount++;
+                yield return new WaitForSeconds(0.01f);
             }
             temp = array[minIndex];
             array[minIndex] = array[j];

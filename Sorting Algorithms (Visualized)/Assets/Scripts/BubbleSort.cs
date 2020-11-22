@@ -11,16 +11,16 @@ public class BubbleSort : MonoBehaviour
     {
         array = RandomArray.randomArray;
 
-        Sort();
+        StartCoroutine(Sort());
 
-        foreach (int item in array)
-        {
-            Debug.Log(item);
-        }
-        Debug.LogWarning("Bubble Sort Comparison Count: " + comparisonCount);
+        //foreach (int item in array)
+        //{
+        //    Debug.Log(item);
+        //}
+        //Debug.LogWarning("Bubble Sort Comparison Count: " + comparisonCount);
     }
 
-    void Sort()
+    IEnumerator Sort()
     {
         for(int j = array.Length - 1; j >= 1; j--)
         {
@@ -33,6 +33,7 @@ public class BubbleSort : MonoBehaviour
                     array[i] = temp;
                 }
                 comparisonCount++;
+                yield return new WaitForSeconds(0.01f);
             }
 
         }
