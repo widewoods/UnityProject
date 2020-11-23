@@ -12,11 +12,13 @@ public class RandomArray : MonoBehaviour
     {
         randomArray = new int[itemCount];
 
+        GameObject visualizerParent = new GameObject("VisualizerParent");
+
         //Add integers from 1 to item count
         for(int i = 1; i <= itemCount; i++)
         {
             randomArray[i - 1] = i;
-            Instantiate(visualizerPrefab);
+            Instantiate(visualizerPrefab, visualizerParent.transform);
         }
 
         Shuffle(randomArray);
