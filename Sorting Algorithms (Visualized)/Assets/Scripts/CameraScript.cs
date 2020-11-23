@@ -15,7 +15,7 @@ public class CameraScript : MonoBehaviour
     void AdjustPosition()
     {
         array = RandomArray.randomArray;
-        transform.position = new Vector3(array.Length/2 , array.Length/2 - 0.5f, -10);
-        Camera.main.orthographicSize = array.Length/2;
+        transform.position = new Vector3(array.Length/2 , (float)array.Length/2 - 0.5f, -10);
+        Camera.main.orthographicSize = (float)array.Length/2;
     }
 }
