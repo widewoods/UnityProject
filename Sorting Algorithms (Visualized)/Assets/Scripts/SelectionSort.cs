@@ -19,8 +19,18 @@ public class SelectionSort : MonoBehaviour
         //}
     }
 
+    public void SelectionSortStart()
+    {
+        if (DropDown.sortInt == 1)
+        {
+            StartCoroutine(Sort());
+        }
+    }
+
     IEnumerator Sort()
     {
+        int[] array;
+        array = RandomArray.randomArray;
         int min;
         int minIndex;
         int temp;
@@ -36,7 +46,7 @@ public class SelectionSort : MonoBehaviour
                     min = array[i];
                 }
                 comparisonCount++;
-                yield return new WaitForSeconds(0.01f);
+                yield return new WaitForSeconds(0.005f);
             }
             temp = array[minIndex];
             array[minIndex] = array[j];
