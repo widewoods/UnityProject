@@ -20,9 +20,19 @@ public class BubbleSort : MonoBehaviour
         //Debug.LogWarning("Bubble Sort Comparison Count: " + comparisonCount);
     }
 
+    public void BubbleSortStart()
+    {
+        if(DropDown.sortInt == 0)
+        {
+            StartCoroutine(Sort());
+        }
+    }
+
     IEnumerator Sort()
     {
-        for(int j = array.Length - 1; j >= 1; j--)
+        int[] array;
+        array = RandomArray.randomArray;
+        for (int j = array.Length - 1; j >= 1; j--)
         {
             for(int i = 0; i < j; i++)
             {
@@ -33,7 +43,7 @@ public class BubbleSort : MonoBehaviour
                     array[i] = temp;
                 }
                 comparisonCount++;
-                yield return new WaitForSeconds(0.01f);
+                yield return new WaitForSeconds(0.005f);
             }
 
         }

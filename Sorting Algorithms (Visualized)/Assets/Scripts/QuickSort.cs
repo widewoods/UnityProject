@@ -15,18 +15,22 @@ public class QuickSort : MonoBehaviour
         //{
         //    Debug.Log(item);
         //}
+
+        StartCoroutine(Sort(array, 0, array.Length - 1));
     }
 
-    private void Update()
+    public void QuickSortStart()
     {
-        if (Input.GetKeyDown(KeyCode.S))
+        if (DropDown.sortInt == 3)
         {
+            int[] array;
+            array = RandomArray.randomArray;
             StartCoroutine(Sort(array, 0, array.Length - 1));
         }
     }
 
     IEnumerator Sort(int[] arr, int low, int high)
-    { 
+    {
         if (low < high)
         {
             int temp;
@@ -36,7 +40,7 @@ public class QuickSort : MonoBehaviour
 
             for (int j = low; j < high; j++)
             {
-                if (array[j] < pivot)
+                if (arr[j] < pivot)
                 {
                     i++;
                     temp = arr[j];

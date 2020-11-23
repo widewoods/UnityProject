@@ -19,9 +19,20 @@ public class InsertionSort : MonoBehaviour
         //}
     }
 
+
+    public void InsertionSortStart()
+    {
+        if (DropDown.sortInt == 2)
+        {
+            StartCoroutine(Sort());
+        }
+    }
+
     IEnumerator Sort()
     {
-        for(int i = 1; i < array.Length; i++)
+        int[] array;
+        array = RandomArray.randomArray;
+        for (int i = 1; i < array.Length; i++)
         {
             int j = i - 1;
             while(j >= 0 && (array[i] < array[j]))
