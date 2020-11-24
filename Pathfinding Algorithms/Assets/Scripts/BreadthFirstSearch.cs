@@ -46,17 +46,17 @@ public class BreadthFirstSearch : MonoBehaviour
                 }
             }
             Node currentNode = queue.Dequeue();
-            Debug.Log(currentNode.position);
 
             if (currentNode == end)
             {
+                FindShortestPath(start, end);
                 Debug.LogWarning("Destination Reached!");
                 StopAllCoroutines();
             }
 
             currentNode.visited = true;
             visited.Add(currentNode);
-            yield return new WaitForSeconds(0.001f);
+            yield return null;
 
             Node[] neighbors = FindNeighborNodes(currentNode);
 
@@ -66,6 +66,26 @@ public class BreadthFirstSearch : MonoBehaviour
                 {
                     queue.Enqueue(n);
                 }
+            }
+        }
+    }
+
+    void FindShortestPath(Node startNode, Node currentNode)
+    {
+        currentNode.state = 3;
+        Node[] neighbors = FindNeighborNodes(currentNode);
+        foreach(Node n in neighbors)
+        {
+            if(n == startNode)
+            {
+                n.state = 3;
+                break;
+            }
+            if(n == currentNode.previousNode)
+            {
+                n.state = 3;
+                FindShortestPath(startNode, n);
+                break;
             }
         }
     }
@@ -80,6 +100,16 @@ public class BreadthFirstSearch : MonoBehaviour
         int down = posY - 1;
         int left = posX - 1;
 
-        return new Node[4] { GridScript.grid[posX, up], GridScript.grid[right, posY], GridScript.grid[posX, down], GridScript.grid[left, posY] };
+        Node[] neighbors = new Node[4] { GridScript.grid[posX, up], GridScript.grid[right, posY], GridScript.grid[posX, down], GridScript.grid[left, posY] };
+        foreach(Node n in neighbors)
+        {
+            if(n.previousNode == null)
+            {
+                n.previousNode = node;
+            }
+        }
+
+
+        return neighbors;
     }
 }

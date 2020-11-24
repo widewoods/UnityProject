@@ -12,4 +12,7 @@ public class Node
     public bool passable;
 
     public int state;
+
+    public Node previousNode;
 }
+
