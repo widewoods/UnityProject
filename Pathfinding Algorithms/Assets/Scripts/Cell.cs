@@ -19,6 +19,10 @@ public class Cell : MonoBehaviour
         {
             sprite.color = Color.black;
         }
+        else if(node.state == 3)
+        {
+            sprite.color = Color.yellow;
+        }
         else if (node.passable && node.visited)
         {
             sprite.color = Color.green;
