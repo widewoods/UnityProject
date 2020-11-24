@@ -46,7 +46,6 @@ public class DepthFirstSearch : MonoBehaviour
                 }
             }
             Node currentNode = stack.Pop();
-            Debug.Log(currentNode.position);
 
             if (currentNode == end)
             {
@@ -56,7 +55,7 @@ public class DepthFirstSearch : MonoBehaviour
 
             currentNode.visited = true;
             visited.Add(currentNode);
-            yield return new WaitForSeconds(0.001f);
+            yield return null;
 
             Node[] neighbors = FindNeighborNodes(currentNode);
 
