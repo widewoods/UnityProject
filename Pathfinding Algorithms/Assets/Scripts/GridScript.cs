@@ -16,8 +16,8 @@ public class GridScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //RandomCellSpawn();
-        StartCoroutine(RandomMazeSpawn());
+        RandomCellSpawn();
+        //StartCoroutine(RandomMazeSpawn());
     }
 
     void RandomCellSpawn()
@@ -60,89 +60,118 @@ public class GridScript : MonoBehaviour
         s.sprite = sprite;
     }
 
-    IEnumerator RandomMazeSpawn()
-    {
+    //IEnumerator RandomMazeSpawn()
+    //{
+    //    Stack<Node> stack = new Stack<Node>();
+    //    grid = new Node[rowCount, columnCount];
+    //    for (int i = 0; i < rowCount; i++)
+    //    {
+    //        for (int j = 0; j < columnCount; j++)
+    //        {
+    //            Node n = new Node();
+    //            n.position = new Vector2(i, j);
+    //            n.posX = i;
+    //            n.posY = j;
+    //            n.passable = false;
+    //            grid[i, j] = n;
 
-        grid = new Node[rowCount, columnCount];
-        for (int i = 0; i < rowCount; i++)
-        {
-            for (int j = 0; j < columnCount; j++)
-            {
-                Node n = new Node();
-                n.position = new Vector2(i, j);
-                n.posX = i;
-                n.posY = j;
-                n.passable = false;
-                grid[i, j] = n;
+    //            SpawnCell(i, j, n.passable);
+    //        }
+    //    }
 
-                SpawnCell(i, j, n.passable);
-            }
-        }
-        Stack<Node> stack = new Stack<Node>();
+    //    stack.Push(grid[25, 25]);
 
-        stack.Push(grid[25, 25]);
+    //    while (stack.Count != 0)
+    //    {
+    //        Node currentNode = stack.Pop();
 
-        while(stack.Count != 0)
-        {
-            Node currentNode = stack.Pop();
+    //        currentNode.passable = true;
+    //        yield return null;
 
-            currentNode.passable = true;
-            yield return null;
+    //        Node[] neighbors = new Node[4] { FindRandomNeighbor(currentNode), FindRandomNeighbor(currentNode), FindRandomNeighbor(currentNode), FindRandomNeighbor(currentNode) };
 
-            Node[] neighbors = FindNeighbors(currentNode);
+    //        foreach(Node n in neighbors)
+    //        {
+    //            while ((n.posX == 0) || (n.posX == 49) || (n.posY == 0) || (n.posY == 49))
+    //            {
+    //                stack.Push(grid[25, 25]);
+    //                neighbors = new Node[1] { stack.Pop() };
+    //            }
+    //            if (CheckDiggable(n))
+    //            {
+    //                stack.Push(n);
+    //            }
+    //        }
+    //    }
+    //}
 
-            foreach(Node n in neighbors)
-            {
-                while ((n.posX == 0) || (n.posX == 49) || (n.posY == 0) || (n.posY == 49))
-                {
-                    neighbors = FindNeighbors(currentNode);
-                }
-            }
-            foreach(Node n in neighbors)
-            {
-                n.passable = true;
-            }
-            stack.Push(neighbors[neighbors.Length - 1]);
-        }
-    }
+    //Node FindRandomNeighbor(Node node)
+    //{
+    //    int posX = node.posX;
+    //    int posY = node.posY;
 
-    Node[] FindNeighbors(Node node)
-    {
-        int posX = node.posX;
-        int posY = node.posY;
+    //    int up = posY + 1;
+    //    int right = posX + 1;
+    //    int down = posY - 1;
+    //    int left = posX - 1;
 
-        int randomSwitch = Random.Range(0, 4);
-        int randomLength = Random.Range(1, 7);
+    //    int randomSwitch = Random.Range(0, 4);
 
-        Node[] nodesToReturn = new Node[randomLength];
+    //    Node nodeToReturn = null;
 
-        switch (randomSwitch)
-        {
-            case 0:
-                for(int i = 0; i < randomLength; i++)
-                {
-                    nodesToReturn[i] = grid[posX + i, posY];
-                }
-                break;
-            case 1:
-                for (int i = 0; i < randomLength; i++)
-                {
-                    nodesToReturn[i] = grid[posX - i, posY];
-                }
-                break;
-            case 2:
-                for (int i = 0; i < randomLength; i++)
-                {
-                    nodesToReturn[i] = grid[posX, posY + i];
-                }
-                break;
-            case 3:
-                for (int i = 0; i < randomLength; i++)
-                {
-                    nodesToReturn[i] = grid[posX, posY - i];
-                }
-                break;
-        }
-        return nodesToReturn;
-    }
+    //    switch (randomSwitch)
+    //    {
+    //        case 0:
+    //            nodeToReturn = grid[posX, up];
+    //            break;
+    //        case 1:
+    //            nodeToReturn = grid[right, posY];
+    //            break;
+    //        case 2:
+    //            nodeToReturn = grid[posX, down];
+    //            break;
+    //        case 3:
+    //            nodeToReturn = grid[left, posY];
+    //            break;
+    //    }
+    //    return nodeToReturn;
+    //}
+
+    //Node[] FindAllNeighbors(Node node)
+    //{
+    //    int posX = node.posX;
+    //    int posY = node.posY;
+
+    //    int up = posY + 1;
+    //    int right = posX + 1;
+    //    int down = posY - 1;
+    //    int left = posX - 1;
+
+    //    int randomSwitch = Random.Range(0, 4);
+
+    //    Node[] nodesToReturn = new Node[4] { grid[posX, up], grid[right, posY], grid[posX, down], grid[left, posY] };
+    //    return nodesToReturn;
+    //}
+
+    //bool CheckDiggable(Node neighbor)
+    //{
+    //    Node[] neighborsOfNeighbor = FindAllNeighbors(neighbor);
+
+    //    int adjacentImpassableCount = 0;
+    //    foreach (Node n in neighborsOfNeighbor)
+    //    {
+    //        if (!n.passable)
+    //        {
+    //            adjacentImpassableCount++;
+    //        }
+    //    }
+    //    if (adjacentImpassableCount >= 3)
+    //    {
+    //        return true;
+    //    }
+    //    else
+    //    {
+    //        return false;
+    //    }
+    //}
 }

@@ -50,7 +50,6 @@ public class BreadthFirstSearch : MonoBehaviour
             if (currentNode == end)
             {
                 FindShortestPath(start, end);
-                Debug.LogWarning("Destination Reached!");
                 StopAllCoroutines();
             }
 
