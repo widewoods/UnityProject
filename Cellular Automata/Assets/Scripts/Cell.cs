@@ -5,6 +5,7 @@ using UnityEngine;
 public class Cell
 {
     public int state;
+    public float timeSinceDeath;
 
     public Cell(int setState)
     {
