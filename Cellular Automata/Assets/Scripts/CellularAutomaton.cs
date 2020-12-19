@@ -9,12 +9,17 @@ public class CellularAutomaton : MonoBehaviour
 
     public Sprite cellSprite;
 
+    protected GameObject cellContainer;
+
     protected int historyCount = 0;
 
     protected int cellCount = 100;
 
     protected void Initialize()
     {
+        historyCount = 0;
+        cellContainer = new GameObject("cellContainer");
+
         cells = new Cell[cellCount];
         nextGenCells = new Cell[cellCount];
 
@@ -33,6 +38,8 @@ public class CellularAutomaton : MonoBehaviour
         {
             GameObject cell = new GameObject("Cell" + i);
             SpriteRenderer sprite = cell.AddComponent<SpriteRenderer>();
+
+            cell.transform.parent = cellContainer.transform;
 
             cell.transform.position = new Vector3(i, -historyCount, 0);
 
