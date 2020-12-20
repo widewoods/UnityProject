@@ -28,13 +28,16 @@ public class GameOfLifeVisual : MonoBehaviour
         if (game.cells[x, y].state == 1)
         {
             game.cells[x, y].timeSinceDeath = 0;
-            sprite.color = Color.black;
+            sprite.color = Color.white;
         }
         else
         {
-            sprite.color = Color.white;
+            sprite.color = Color.black;
         }
         //Color using gradient
-        sprite.color = game.gradient.Evaluate(game.cells[x, y].timeSinceDeath);
+        if(game.cells[x, y].timeSinceDeath != 0)
+        {
+            sprite.color = game.gradient.Evaluate(game.cells[x, y].timeSinceDeath);
+        }
     }
 }

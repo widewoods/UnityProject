@@ -44,21 +44,21 @@ public class GameOfLife : MonoBehaviour
         Cell TL, TC, TR, L, R, BL, BC, BR;
         int right = x + 1, left = x - 1, top = y + 1, bottom = y - 1;
 
-        if(x == 49)
+        if(x == cellCount - 1)
         {
             right = 0;
         }
         if(x == 0)
         {
-            left = 49;
+            left = cellCount - 1;
         }
-        if(y == 49)
+        if(y == cellCount - 1)
         {
             top = 0;
         }
         if(y == 0)
         {
-            bottom = 49;
+            bottom = cellCount - 1;
         }
 
         TL = cells[left, top];
@@ -173,15 +173,19 @@ public class GameOfLife : MonoBehaviour
         gradient = new Gradient();
 
         colorKey = new GradientColorKey[2];
-        colorKey[0].color = Color.white;
+        Color color1, color2;
+        ColorUtility.TryParseHtmlString("#CC22EA", out color1);
+        ColorUtility.TryParseHtmlString("#482AC2", out color2);
+
+        colorKey[0].color = color1;
         colorKey[0].time = 0.0f;
-        colorKey[1].color = Color.black;
+        colorKey[1].color = color2;
         colorKey[1].time = 1.0f;
 
         alphaKey = new GradientAlphaKey[2];
         alphaKey[0].alpha = 1.0f;
         alphaKey[0].time = 0.0f;
-        alphaKey[1].alpha = 0.5f;
+        alphaKey[1].alpha = 1.0f;
         alphaKey[1].time = 1.0f;
 
         gradient.SetKeys(colorKey, alphaKey);
