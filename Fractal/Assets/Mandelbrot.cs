@@ -17,7 +17,9 @@ public class Mandelbrot : MonoBehaviour
 
         renderer.sprite = sprite;
 
-        for(int i = 0; i < 100; i++)
+        texture.filterMode = FilterMode.Point;
+
+        for (int i = 0; i < 100; i++)
         {
             iterationColor.Add(i, new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f)));
         }

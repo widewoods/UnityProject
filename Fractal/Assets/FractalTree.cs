@@ -64,8 +64,8 @@ public class FractalTree : MonoBehaviour
     {
         GameObject line = new GameObject("Line");
         LineRenderer lr = line.AddComponent<LineRenderer>();
-        lr.startWidth = 0.1f;
-        lr.endWidth = 0.1f;
+        lr.startWidth = 0.05f;
+        lr.endWidth = 0.05f;
         lr.material = lineMat;
         lr.numCapVertices = 0;
         lr.SetPositions(new Vector3[2] { start, end });
